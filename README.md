@@ -19,7 +19,7 @@ Here is the technologies, used by this solution:
 
 To run the solution, run the following commands:
 ```bash
-cd webrtc_signaling_python
+cd webrtc_signaling_server
 docker-compose up --build -d
 ```
 When the two containers are up and running, open your web-browser and go to [http://localhost:8080](http://localhost:8080)

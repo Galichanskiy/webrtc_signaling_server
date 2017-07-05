@@ -32,8 +32,8 @@ When the two containers are up and running, open your web-browser and go to [htt
 
 
 
-## <b>Proposition</b>
-This implementation use the `WebSocket` protocol as the signaling protocol in the `python` language. The architecture is straightforward.
+## <b>How it works</b>
+This implementation use the `WebSocket` protocol as the signaling protocol in the `python` language. The architecture is straightforward, one websocket server that handle negotiation between peers.
 Here is the communication process used:
 
 1. The peer A send to the `WebSocket` server a login action with its `username`.
@@ -56,6 +56,7 @@ We could use the `MediaStream` api to send video, audio as well as text data lik
 ## <b>Limitations workaround</b>
 Because of the  WebSocket server resources limitations. We need to scale-out our solution, how ?
 1. By adding in front of the WebSocket server a load-balancer.
+2. Adding more WebSocket servers.
 
 
 ## <b>Scenario</b>

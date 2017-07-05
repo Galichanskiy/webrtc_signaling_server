@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Webrtc signaling for text chat</title>
+        <script src="js/jquery.min.js"></script>
+    </head>
+    <body>
+    	<button id="ws-connect">Connect to websocket server</button>
+        
+        <form id="user_form" action="">
+            <input type="text" id="user" placeholder="ex: Toto">
+            <button id="set_name_btn">Set my username</button>
+        </form>
+        <form id="connect_form" action="">
+            <input type="text" id="distant_username" placeholder="ex: Beam">
+            <button id="connect_btn">Connect to peer user</button>
+        </form>
+        <form id="send_form" action="">
+            <input type="text" id="message">
+            <button id="send_btn">Send my message</button>
+        </form>
+    </body>
+    <script src = "js/webrtc.js"></script> 
+</html>

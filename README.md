@@ -52,6 +52,7 @@ We could use the `MediaStream` api to send video, audio as well as text data lik
 # Limitations
 1. RTCPeerConnection could host theoretically 65534 channels ([1]: https://developer.mozilla.org/en/docs/Web/API/RTCDataChannel)
 2. Because WebSocket protocol depends on the TCP layer. The TCP layer can accept/establish 65534 connection because of the number of ports with the IPV4 version.
+3. In term of CPU/memory usage, we should consider running some stress tests via the jmeter software.
 
 ## <b>Limitations workaround</b>
 Because of the  WebSocket server resources limitations. We need to scale-out our solution, how ?

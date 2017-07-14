@@ -56,6 +56,7 @@ We could use the `MediaStream` api to send video, audio as well as text data lik
 ## <b>Limitations workaround</b>
 What if the client doesn't have a browser that supports the requirements ?
 1. On failure we should switch to a 'normal' communication. Client-Server where the client keeps asking datas to the server.
+
 Because of the  WebSocket server resources limitations. We need to scale-out our solution, how ?
 1. By adding in front of the WebSocket server a load-balancer.
 2. Adding more WebSocket servers.

@@ -50,11 +50,12 @@ We could use the `MediaStream` api to send video, audio as well as text data lik
 
 
 # Limitations
-1. RTCPeerConnection could host theoretically 65534 channels ([1]: https://developer.mozilla.org/en/docs/Web/API/RTCDataChannel)
-2. Because WebSocket protocol depends on the TCP layer. The TCP layer can accept/establish 65534 connection because of the number of ports with the IPV4 version.
-3. In term of CPU/memory usage, we should consider running some stress tests via the jmeter software.
+1. This application needs a browser that supports HTML5, WebSockets and WebRTC apis.
+2. With the `test/stress_test.py` script I can reach up to 1000 concurrent users. After that, the client throw ConnectionClosed exception. I'm wondering if the websockets library that I choosed was not in fault. May be we should consider to test another library, like Autobahn which seems much more configurable and more functional (with onMessage, onConnect functions...).
 
 ## <b>Limitations workaround</b>
+What if the client doesn't have a browser that supports the requirements ?
+1. On failure we should switch to a 'normal' communication. Client-Server where the client keeps asking datas to the server.
 Because of the  WebSocket server resources limitations. We need to scale-out our solution, how ?
 1. By adding in front of the WebSocket server a load-balancer.
 2. Adding more WebSocket servers.

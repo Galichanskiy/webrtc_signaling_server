@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.5
 """Websocket server programm
 
 The purpose of this code is to assume the role of a signaling server 
@@ -43,9 +43,10 @@ def login_action(con, msg):
     It stores the websocket connection to a dict for the futur actions
     """
     if 'data' in msg:
-        usr = msg['data']
-        logger.info('Login action for user %s, saving its connection', usr)
-        cons[usr] = con
+        if msg['data'] not in cons:
+            usr = msg['data']
+            logger.debug('Login action for user %s, saving its connection', usr)
+            cons[usr] = con
     else:
         raise Exception("Can't find 'data' key on received message")
 
@@ -75,12 +76,34 @@ async def ws_con_handler(ws):
                         raise Exception('No \'to\' key on received message')
             else:
                 raise Exception('No \'action\' key on received message')
+    except websockets.exceptions.ConnectionClosed as e:
+        logger.info("Connection closed")
     except Exception as e:
         logger.exception("Error while receiving messages")
 
 
 
-start_server = websockets.serve(handler, '0.0.0.0', 5000)
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+if __name__ == '__main__':
+    start_server = websockets.serve(handler, '0.0.0.0', 5000)
+    loop = asyncio.get_event_loop()
+
+    try:
+        loop.run_until_complete(start_server)
+        loop.run_forever()
+    except KeyboardInterrupt as e:
+        print("Attempting graceful shutdown", flush=True)
+        def shutdown_exception_handler(loop, context):
+            if "exception" not in context \
+            or not isinstance(context["exception"], asyncio.CancelledError):
+                loop.default_exception_handler(context)
+        loop.set_exception_handler(shutdown_exception_handler)
+
+        tasks = asyncio.gather(*asyncio.Task.all_tasks(loop=loop), loop=loop, return_exceptions=True)
+        tasks.add_done_callback(lambda t: loop.stop())
+        tasks.cancel()
+
+        while not tasks.done() and not loop.is_closed():
+            loop.run_forever()
+    finally:
+        loop.close()
